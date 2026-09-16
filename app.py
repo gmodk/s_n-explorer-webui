@@ -21,6 +21,7 @@ from symmetric_group import (
     build_dihedral_group,
     cayley_table,
     compose,
+    composition_trace,
     conjugacy_class_summaries,
     cycle_notation,
     generate_permutations,
@@ -104,7 +105,7 @@ def subgroup_payload(n: int) -> tuple[list[list[list[int]]], list[dict]]:
 
 
 class ExplorerHandler(BaseHTTPRequestHandler):
-    server_version = "SnExplorer/2.0"
+    server_version = "SnExplorer/2.1"
 
     def log_message(self, fmt: str, *args) -> None:
         # Keep console output compact while still showing requests.
@@ -378,6 +379,7 @@ class ExplorerHandler(BaseHTTPRequestHandler):
                     "sigma": permutation_record(sigma_idx, sigma),
                     "tau": permutation_record(tau_idx, tau),
                     "result": permutation_record(result_index, result),
+                    "trace": composition_trace(sigma, tau),
                     "reading": "apply tau first, then sigma",
                 }
             )

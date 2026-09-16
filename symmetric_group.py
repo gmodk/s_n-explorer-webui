@@ -46,6 +46,30 @@ def compose(sigma: Sequence[int], tau: Sequence[int]) -> Permutation:
     return [sigma[tau[i]] for i in range(len(sigma))]
 
 
+def composition_trace(sigma: Sequence[int], tau: Sequence[int]) -> List[dict]:
+    """Return the element-by-element trace of sigma o tau in one-based notation.
+
+    Each record exposes the intermediate value explicitly:
+        i -> tau(i) -> sigma(tau(i)).
+
+    This is useful for teaching and visualization because it makes the order of
+    functional composition visible instead of only returning the final mapping.
+    """
+    _validate_same_degree(sigma, tau)
+    trace = []
+    for i in range(len(sigma)):
+        after_tau = tau[i]
+        after_sigma = sigma[after_tau]
+        trace.append(
+            {
+                "input": i + 1,
+                "after_tau": after_tau + 1,
+                "result": after_sigma + 1,
+            }
+        )
+    return trace
+
+
 def identity(n: int) -> Permutation:
     return list(range(n))
 

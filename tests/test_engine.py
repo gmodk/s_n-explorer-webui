@@ -5,6 +5,7 @@ from symmetric_group import (
     build_dihedral_group,
     cayley_table,
     compose,
+    composition_trace,
     conjugacy_class_summaries,
     generate_permutations,
     inverse,
@@ -72,3 +73,15 @@ def test_dihedral_d5_has_ten_unique_elements_and_relation():
 def test_s3_conjugacy_classes_have_sizes_1_2_3():
     classes = conjugacy_class_summaries(3)
     assert sorted(c["size"] for c in classes) == [1, 2, 3]
+
+
+def test_composition_trace_matches_cauchy_one_line_example():
+    # sigma = (231), tau = (132) in one-line/Cauchy notation.
+    sigma = [1, 2, 0]
+    tau = [0, 2, 1]
+    assert compose(sigma, tau) == [1, 0, 2]
+    assert composition_trace(sigma, tau) == [
+        {"input": 1, "after_tau": 1, "result": 2},
+        {"input": 2, "after_tau": 3, "result": 1},
+        {"input": 3, "after_tau": 2, "result": 3},
+    ]
